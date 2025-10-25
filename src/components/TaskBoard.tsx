@@ -6,6 +6,7 @@ import {
   type Task,
 } from '../api/mock'
 import '../styles/taskBoard.css'
+import calcProgress from '../utils/calcProgress'
 
 export type TaskBoardProps = {
   projectId?: string
@@ -33,7 +34,7 @@ export function TaskBoard({ projectId }: TaskBoardProps) {
   const progress = useMemo(() => {
     const total = tasks.length
     const done = tasks.filter((t) => t.done).length
-    return { total, done, percent: total === 0 ? 0 : Math.round((done / total) * 100) }
+    return calcProgress(total, done);
   }, [tasks])
 
   async function refresh() {
