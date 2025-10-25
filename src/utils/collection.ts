@@ -31,6 +31,19 @@ export function pluckTitles(tasks: SimpleTask[]): string[] {
 // priority 가 없으면 가장 낮은 우선순위로 간주합니다.
 export function highPriorityFirst(tasks: SimpleTask[]): SimpleTask[] {
   const order = { high: 0, medium: 1, low: 2 } as const
+  tasks.sort((task1, task2) => {
+    if (task1.priority === undefined || task2.priority === undefined) {
+      return 0;
+    }
+    const diff = order[task1.priority] - order[task2.priority];
+    if (diff > 0) {
+      return 1;
+    } else if (diff < 0) {
+      return -1;
+    } else {
+      return 0;
+    }
+  })
   // lodash.sortBy 또는 Array.prototype.sort 를 사용할 수 있습니다.
   // 구현하세요.
   return tasks
